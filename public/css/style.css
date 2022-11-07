@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  display: block;
+}
+
+main {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  width: 100%;
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 80vh;
+  position: relative;
+  margin:0;
+  padding:0; 
+  border: 1px solid black;
+}
+
+/* Boostrap Extra*/
+.max-container-height {
+  height: 70vh;
+  max-height: 1000px;
+}
+
+.card-hover:hover {
+  border: 1px solid orangered;
+}
+
+
+/* Leaflet */
+.leaflet-container.crosshair-cursor-enabled {
+    cursor:crosshair;
+}
