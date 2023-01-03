@@ -25,7 +25,7 @@ var connection = mysql.createConnection({
 const animalFullTextTemplate = 
 'SELECT id, name, image_url, source_url, note, location FROM animal INNER JOIN animal_geo ON animal.id=animal_geo.animal_id WHERE MATCH (name, note) AGAINST (?);'
 const animalWKTShapeTemplate = 
-'SELECT id, name, image_url, source_url, note, location FROM animal INNER JOIN animal_geo ON animal.id=animal_geo.animal_id WHERE GEOGRAPHY_INTERSECTS(location, ?) OR GEOGRAPHY_CONTAINS(location, ?)'
+'SELECT id, name, image_url, source_url, note, location FROM animal INNER JOIN animal_geo ON animal.id=animal_geo.animal_id WHERE GEOGRAPHY_INTERSECTS(location, ?);'
 
 // Server 
 app.set("view engine", "ejs")
