@@ -164,7 +164,7 @@ function toWKT(layer) {
       var latlngs = layer.getLatLngs();
       latlngs = latlngs[0]
       for (var i = 0; i < latlngs.length; i++) {
-      coords.push(latlngs[i].lng + " " + latlngs[i].lat);
+        coords.push(latlngs[i].lng + " " + latlngs[i].lat);
         if (i === 0) {
           lng = latlngs[i].lng;
           lat = latlngs[i].lat;
