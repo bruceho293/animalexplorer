@@ -28,11 +28,11 @@ const animalWKTShapeTemplate =
 'SELECT id, name, image_url, source_url, note, location FROM animal INNER JOIN animal_geo ON animal.id=animal_geo.animal_id WHERE GEOGRAPHY_INTERSECTS(location, ?) OR GEOGRAPHY_CONTAINS(location, ?)'
 
 // Server 
-app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs")
+app.use(express.static(path.join(__dirname, "public")))
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index")
 })
 
 // Get the animals based on the text and note
@@ -66,5 +66,5 @@ app.get("/api/v1/animals/fromArea/:shape/", (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${port}`)
 })

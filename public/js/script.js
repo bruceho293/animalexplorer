@@ -45,7 +45,7 @@ var groupLayers = L.layerGroup()
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault()
   if (currentLayer !== null) map.removeLayer(currentLayer) 
-  const data = Object.fromEntries(new FormData(e.target).entries());
+  const data = Object.fromEntries(new FormData(e.target).entries())
   const text = data["info"]
 
   fetch("/api/v1/animals/fromText/" + text)
@@ -161,22 +161,22 @@ function resetAnimalList(){
 function toWKT(layer) {
   var lng, lat, coords = [];
   if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
-      var latlngs = layer.getLatLngs();
+      var latlngs = layer.getLatLngs()
       latlngs = latlngs[0]
       for (var i = 0; i < latlngs.length; i++) {
-        coords.push(latlngs[i].lng + " " + latlngs[i].lat);
+        coords.push(latlngs[i].lng + " " + latlngs[i].lat)
         if (i === 0) {
           lng = latlngs[i].lng;
           lat = latlngs[i].lat;
         }
       };
       if (layer instanceof L.Polygon) {
-          return "POLYGON((" + coords.join(",") + "," + lng + " " + lat + "))";
+          return "POLYGON((" + coords.join(",") + "," + lng + " " + lat + "))"
       } else if (layer instanceof L.Polyline) {
-          return "LINESTRING(" + coords.join(",") + ")";
+          return "LINESTRING(" + coords.join(",") + ")"
       }
   } else if (layer instanceof L.Marker) {
-      return "POINT(" + layer.getLatLng().lng + " " + layer.getLatLng().lat + ")";
+      return "POINT(" + layer.getLatLng().lng + " " + layer.getLatLng().lat + ")"
   }
 }
 
