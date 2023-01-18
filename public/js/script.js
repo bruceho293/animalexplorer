@@ -22,15 +22,13 @@ map.on(L.Draw.Event.CREATED, function (e) {
   currentLayer = e.layer
 
   if (type === 'circle' || type === 'polyline'){
-    alert("Disable shape at the current moment !!")
+    customAlert("Disable shape at the current moment !!", "warning")
   } else {
     
       let wktLayer = toWKT(currentLayer)
       wktLayer = wktLayer.replaceAll(' ', '_')
-    
-      fetch("/api/v1/animals/fromArea/" + wktLayer)
-      .then((response) => response.json())
-      .then((data) => processAnimalData(data))
+
+      callAPI("/api/v1/animals/fromArea/" + wktLayer)
     
       // Do whatever else you need to. (save to db; add to map etc)
       map.addLayer(currentLayer)
@@ -48,9 +46,10 @@ document.querySelector("form").addEventListener("submit", (e) => {
   const data = Object.fromEntries(new FormData(e.target).entries())
   const text = data["info"]
 
-  fetch("/api/v1/animals/fromText/" + text)
-  .then((response) => response.json())
-  .then((data) => processAnimalData(data))
+  // fetch("/api/v1/animals/fromText/" + text)
+  // .then((response) => response.json())
+  // .then((data) => processAnimalData(data))
+  callAPI("/api/v1/animals/fromText/" + text)
 })
 
 // Helper function
@@ -222,4 +221,36 @@ function processAnimalData(data){
     resetAnimalList()
     animal_list.appendChild(document.createTextNode("No matching animals"))
   }
+}
+
+function customAlert (message, type) {
+  resetAnimalList()
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+
+  animal_list.append(wrapper)
+}
+
+function callAPI(requestUrl) {
+   // Reference: https://jasonwatmore.com/post/2021/10/09/fetch-error-handling-for-failed-http-responses-and-network-errors#:~:text=The%20fetch()%20function%20will,ourselves%20by%20calling%20return%20Promise.
+   fetch(requestUrl)
+   .then(async (response) => {
+     const isJson = response.headers.get('content-type')?.includes('application/json')
+     const data = isJson ? await response.json() : null
+     
+     if (!response.ok) {
+       const error = "Suspended internal server (Status Code: " + response.status + ")"
+       return Promise.reject(error)
+     }
+     
+     processAnimalData(data)
+   })
+   .catch(error => {
+     customAlert(error, "danger")
+   })
 }
